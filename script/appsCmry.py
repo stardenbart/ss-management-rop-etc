@@ -1,4 +1,5 @@
 import re
+import os
 import pickle
 import pandas as pd
 import numpy as np
@@ -7,6 +8,8 @@ import math
 from tensorflow.keras.models import load_model
 from tensorflow.keras.preprocessing.sequence import pad_sequences
 from openpyxl.styles import PatternFill
+
+script_dir = os.path.dirname(os.path.abspath(__file__))
 
 # ============================================================
 # --- CLEANING ---
@@ -46,7 +49,7 @@ def extract_category(text: str) -> str:
 # ============================================================
 @st.cache_resource
 def load_assets():
-    model = load_model("best_text_classifier.h5")
+    model = load_model(os.path.join(script_dir, "best_text_classifier.h5"))
     with open("tokenizer.pkl", "rb") as f: tokenizer = pickle.load(f)
     with open("le_machine.pkl", "rb") as f: le_machine = pickle.load(f)
     with open("le_category.pkl", "rb") as f: le_category = pickle.load(f)
@@ -344,5 +347,6 @@ if uploaded_mb51 and uploaded_mb52 and st.button("🔍 Jalankan Prediksi & Reord
             file_name=out_file,
             mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
         )
+
 
 
