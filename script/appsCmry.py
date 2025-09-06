@@ -50,9 +50,9 @@ def extract_category(text: str) -> str:
 @st.cache_resource
 def load_assets():
     model = load_model(os.path.join(script_dir, "best_text_classifier.h5"))
-    with open("tokenizer.pkl", "rb") as f: tokenizer = pickle.load(f)
-    with open("le_machine.pkl", "rb") as f: le_machine = pickle.load(f)
-    with open("le_category.pkl", "rb") as f: le_category = pickle.load(f)
+    with open(os.path.join(script_dir, "tokenizer.pkl"), "rb") as f: tokenizer = pickle.load(f)
+    with open(os.path.join(script_dir, "le_machine.pkl"), "rb") as f: le_machine = pickle.load(f)
+    with open(os.path.join(script_dir, "le_category.pkl"), "rb") as f: le_category = pickle.load(f)
     return model, tokenizer, le_machine, le_category
 
 model, tokenizer, le_machine, le_category = load_assets()
@@ -284,7 +284,7 @@ if uploaded_mb51 and uploaded_mb52 and st.button("🔍 Jalankan Prediksi & Reord
 
     # Merge dengan lead_time.xlsx
     try:
-        leadtime_df = pd.read_excel("lead_time.xlsx")
+        leadtime_df = pd.read_excel(os.path.join(script_dir, "lead_time.xlsx"))
         df = df.merge(leadtime_df, on="Material", how="left")
     except Exception as e:
         st.warning(f"⚠️ Gagal load lead_time.xlsx: {e}")
@@ -347,6 +347,7 @@ if uploaded_mb51 and uploaded_mb52 and st.button("🔍 Jalankan Prediksi & Reord
             file_name=out_file,
             mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
         )
+
 
 
 
