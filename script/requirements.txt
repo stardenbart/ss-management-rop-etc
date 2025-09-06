@@ -4,4 +4,4 @@ streamlit
 tensorflow
 h5py
 openpyxl
-
+scikit-learn
