@@ -46,10 +46,10 @@ def extract_category(text: str) -> str:
 # ============================================================
 @st.cache_resource
 def load_assets():
-    model = load_model("best_text_classifier.h5")
-    with open("tokenizer.pkl", "rb") as f: tokenizer = pickle.load(f)
-    with open("le_machine.pkl", "rb") as f: le_machine = pickle.load(f)
-    with open("le_category.pkl", "rb") as f: le_category = pickle.load(f)
+    model = load_model("../best_text_classifier.h5")
+    with open("../tokenizer.pkl", "rb") as f: tokenizer = pickle.load(f)
+    with open("../le_machine.pkl", "rb") as f: le_machine = pickle.load(f)
+    with open("../le_category.pkl", "rb") as f: le_category = pickle.load(f)
     return model, tokenizer, le_machine, le_category
 
 model, tokenizer, le_machine, le_category = load_assets()
@@ -344,3 +344,4 @@ if uploaded_mb51 and uploaded_mb52 and st.button("🔍 Jalankan Prediksi & Reord
             file_name=out_file,
             mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
         )
+
