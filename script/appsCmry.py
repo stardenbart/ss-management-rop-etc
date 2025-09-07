@@ -282,34 +282,36 @@ st.markdown(
     <style>
     .cta-button {
         background-color: #433e8b;
-        color: white;
+        color: white !important;
         border: none;
         padding: 12px 24px;
         border-radius: 10px;
         font-size: 16px;
         font-weight: bold;
         cursor: pointer;
-        text-decoration: none;
+        text-decoration: none !important;
         display: inline-block;
         transition: background-color 0.3s ease;
     }
     .cta-button:hover {
         background-color: #e5232a;
-        color: white;
+        color: white !important;
+        text-decoration: none !important;
     }
     .cta-container {
-        margin-bottom: 30px; /* jarak ke elemen bawah */
+        margin-bottom: 20px; /* jarak ke elemen bawah */
     }
     </style>
 
     <div class="cta-container">
         <a href="https://bit.ly/Handbook-SSMCMRY" target="_blank" class="cta-button">
-            📘 Klik untuk mengakses Handbook Sparepart Management System
+            Klik untuk mengakses Handbook Sparepart Management System
         </a>
     </div>
     """,
     unsafe_allow_html=True
 )
+
 
 
 uploaded_mb51 = st.file_uploader("📂 Upload MB51 (historical)", type=["csv", "xlsx"])
@@ -411,6 +413,7 @@ if uploaded_mb51 and uploaded_mb52 and st.button("🚀 Jalankan Prediksi"):
             file_name=out_file,
             mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
         )
+
 
 
 
