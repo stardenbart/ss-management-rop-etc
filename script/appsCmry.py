@@ -5,6 +5,7 @@ import pandas as pd
 import numpy as np
 import streamlit as st
 import math
+from PIL import Image
 from tensorflow.keras.models import load_model
 from tensorflow.keras.preprocessing.sequence import pad_sequences
 from openpyxl.styles import PatternFill
@@ -266,7 +267,17 @@ def predict_dataframe(df: pd.DataFrame,
 # ============================================================
 # --- STREAMLIT UI ---
 # ============================================================
-st.title("📄 CIMORY Text Classifier + Inventory Planner")
+st.set_page_config(
+    page_title="Cimory Sparepart Management",
+    layout="wide",
+    initial_sidebar_state="expanded"
+)
+
+logo_path = os.path.join(script_dir, "Cimory.png")
+logo = Image.open(logo_path)
+st.image(logo, width=200)
+
+st.title("Sparepart Management and Inventory Planner")
 
 uploaded_mb51 = st.file_uploader("📂 Upload MB51 (historical)", type=["csv", "xlsx"])
 uploaded_mb52 = st.file_uploader("📂 Upload MB52 (current stock)", type=["csv", "xlsx"])
@@ -347,6 +358,7 @@ if uploaded_mb51 and uploaded_mb52 and st.button("🔍 Jalankan Prediksi & Reord
             file_name=out_file,
             mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
         )
+
 
 
 
