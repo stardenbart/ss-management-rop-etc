@@ -193,19 +193,25 @@ def compute_reorder_forecast(usage_df, ss_df, stock_df,
 
     merged["reorder_date"] = pd.to_datetime("today") + pd.to_timedelta(merged["days_to_rop"], unit="D")
 
-    def check_alert(row):
+   def check_alert(row):
         stock = row[stock_col]
         ss = row["safety_stock"]
         rop = row["rop"]
+        try:
+            stock_val = pd.to_numeric(stock, errors="coerce")
+        except:
+            stock_val = None
+
+        if stock is None or pd.isna(stock_val) or str(stock).strip() == "" or stock_val <= 0:
+            return "Out of Stock"
         if pd.isna(rop) or pd.isna(ss):
             return "No ROP Data"
-        if stock <= 0:
-            return "Out of Stock"
-        if stock < ss:
+        if stock_val < ss:
             return "CRITICAL – Below Safety Stock"
-        if stock < rop:
+        if stock_val < rop:
             return "Warning – Below ROP"
         return "Safe – No Action Needed"
+
 
     merged["Alert"] = merged.apply(check_alert, axis=1)
     return merged[[material_col, stock_col, "avg_daily_usage", "safety_stock", "rop", "days_to_rop", "reorder_date", "Alert"]]
@@ -405,15 +411,17 @@ if uploaded_mb51 and uploaded_mb52 and st.button("🚀 Jalankan Prediksi"):
         ws = writer.sheets["Reorder"]
         alert_col = reorder_df.columns.get_loc("Alert") + 1  # openpyxl 1-based
 
-        # Warna
-        red_fill = PatternFill(start_color="FF9999", end_color="FF9999", fill_type="solid")
-        yellow_fill = PatternFill(start_color="FFF2CC", end_color="FFF2CC", fill_type="solid")
-        green_fill = PatternFill(start_color="C6EFCE", end_color="C6EFCE", fill_type="solid")
+        red_fill = PatternFill(start_color="FF9999", end_color="FF9999", fill_type="solid")       # merah untuk Out of Stock
+        orange_fill = PatternFill(start_color="FFA500", end_color="FFA500", fill_type="solid")   # oranye untuk Critical
+        yellow_fill = PatternFill(start_color="FFF2CC", end_color="FFF2CC", fill_type="solid")   # kuning untuk Warning
+        green_fill = PatternFill(start_color="C6EFCE", end_color="C6EFCE", fill_type="solid")    # hijau untuk Safe
 
         for row in ws.iter_rows(min_row=2, max_row=ws.max_row, min_col=alert_col, max_col=alert_col):
             for cell in row:
-                if "CRITICAL" in str(cell.value) or "Out of Stock" in str(cell.value):
+                if "Out of Stock" in str(cell.value):
                     cell.fill = red_fill
+                elif "CRITICAL" in str(cell.value):
+                    cell.fill = orange_fill
                 elif "Warning" in str(cell.value):
                     cell.fill = yellow_fill
                 elif "Safe" in str(cell.value):
@@ -426,6 +434,7 @@ if uploaded_mb51 and uploaded_mb52 and st.button("🚀 Jalankan Prediksi"):
             file_name=out_file,
             mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
         )
+
 
 
 
