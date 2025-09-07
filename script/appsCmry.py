@@ -277,25 +277,40 @@ logo_path = os.path.join(script_dir, "Cimory.png")
 logo = Image.open(logo_path)
 st.image(logo, width=200)
 
-st.title("Sparepart Management and Inventory Planner")
 st.markdown(
     """
-    <a href="https://bit.ly/Handbook-SSMCMRY" target="_blank">
-        <button style="
-            background-color:#433e8b;
-            color:white;
-            border:none;
-            padding:12px 24px;
-            border-radius:10px;
-            font-size:16px;
-            font-weight:bold;
-            cursor:pointer;">
-            Klik untuk mengakses Handbook Sparepart Management System
-        </button>
-    </a>
+    <style>
+    .cta-button {
+        background-color: #433e8b;
+        color: white;
+        border: none;
+        padding: 12px 24px;
+        border-radius: 10px;
+        font-size: 16px;
+        font-weight: bold;
+        cursor: pointer;
+        text-decoration: none;
+        display: inline-block;
+        transition: background-color 0.3s ease;
+    }
+    .cta-button:hover {
+        background-color: #e5232a;
+        color: white;
+    }
+    .cta-container {
+        margin-bottom: 30px; /* jarak ke elemen bawah */
+    }
+    </style>
+
+    <div class="cta-container">
+        <a href="https://bit.ly/Handbook-SSMCMRY" target="_blank" class="cta-button">
+            📘 Klik untuk mengakses Handbook Sparepart Management System
+        </a>
+    </div>
     """,
     unsafe_allow_html=True
 )
+
 
 uploaded_mb51 = st.file_uploader("📂 Upload MB51 (historical)", type=["csv", "xlsx"])
 uploaded_mb52 = st.file_uploader("📂 Upload MB52 (current stock)", type=["csv", "xlsx"])
@@ -396,6 +411,7 @@ if uploaded_mb51 and uploaded_mb52 and st.button("🚀 Jalankan Prediksi"):
             file_name=out_file,
             mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
         )
+
 
 
 
