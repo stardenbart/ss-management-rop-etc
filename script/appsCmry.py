@@ -192,8 +192,8 @@ def compute_reorder_forecast(usage_df, ss_df, stock_df,
     merged["days_to_rop"] = merged["days_to_rop"].replace([np.inf, -np.inf], np.nan)
 
     merged["reorder_date"] = pd.to_datetime("today") + pd.to_timedelta(merged["days_to_rop"], unit="D")
-
-   def check_alert(row):
+    
+    def check_alert(row):
         stock = row[stock_col]
         ss = row["safety_stock"]
         rop = row["rop"]
@@ -434,6 +434,7 @@ if uploaded_mb51 and uploaded_mb52 and st.button("🚀 Jalankan Prediksi"):
             file_name=out_file,
             mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
         )
+
 
 
 
