@@ -306,7 +306,7 @@ st.markdown(
 )
 
 
-if uploaded_mb51 and uploaded_mb52 and st.button("🔍 Jalankan Prediksi & Reorder"):
+if uploaded_mb51 and uploaded_mb52 and st.button("🚀 Jalankan Prediksi"):
     # Load MB51
     if uploaded_mb51.name.endswith(".csv"):
         df = pd.read_csv(uploaded_mb51, encoding="latin1", on_bad_lines="skip")
@@ -335,7 +335,7 @@ if uploaded_mb51 and uploaded_mb52 and st.button("🔍 Jalankan Prediksi & Reord
         )
         reorder_df = compute_reorder_forecast(result_df, ss_summary, stock_df)
 
-    st.success("✅ Prediksi & Reorder selesai!")
+    st.success("✅ Prediksi selesai!")
 
     st.write("📊 Data hasil klasifikasi:")
     st.dataframe(result_df.head())
@@ -346,7 +346,7 @@ if uploaded_mb51 and uploaded_mb52 and st.button("🔍 Jalankan Prediksi & Reord
     st.write("📦 Rekomendasi Reorder:")
     st.dataframe(reorder_df.head())
 
-    out_file = "prediction_full.xlsx"
+    out_file = "EXPORT_RESULT.xlsx"
     with pd.ExcelWriter(out_file, engine="openpyxl") as writer:
         result_df.to_excel(writer, sheet_name="Data", index=False)
         summary.to_excel(writer, sheet_name="Summary")
@@ -378,6 +378,7 @@ if uploaded_mb51 and uploaded_mb52 and st.button("🔍 Jalankan Prediksi & Reord
             file_name=out_file,
             mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
         )
+
 
 
 
