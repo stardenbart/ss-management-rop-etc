@@ -269,8 +269,21 @@ def predict_dataframe(df: pd.DataFrame,
 # ============================================================
 st.set_page_config(
     page_title="Cimory Sparepart Management",
-    layout="wide",
+    layout="centered",
     initial_sidebar_state="expanded"
+)
+
+st.markdown(
+    """
+    <style>
+    .block-container {
+        max-width: 900px;   /* atur sesuai kebutuhan */
+        padding-left: 2rem;
+        padding-right: 2rem;
+    }
+    </style>
+    """,
+    unsafe_allow_html=True
 )
 
 logo_path = os.path.join(script_dir, "Cimory.png")
@@ -413,6 +426,7 @@ if uploaded_mb51 and uploaded_mb52 and st.button("🚀 Jalankan Prediksi"):
             file_name=out_file,
             mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
         )
+
 
 
 
