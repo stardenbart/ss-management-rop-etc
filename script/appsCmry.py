@@ -278,6 +278,7 @@ logo = Image.open(logo_path)
 st.image(logo, width=200)
 
 st.title("Sparepart Management and Inventory Planner")
+st.link_button("Klik untuk mengakses Handbook Sparepart Management System", "https://bit.ly/Handbook-SSMCMRY")
 
 uploaded_mb51 = st.file_uploader("📂 Upload MB51 (historical)", type=["csv", "xlsx"])
 uploaded_mb52 = st.file_uploader("📂 Upload MB52 (current stock)", type=["csv", "xlsx"])
@@ -378,6 +379,7 @@ if uploaded_mb51 and uploaded_mb52 and st.button("🚀 Jalankan Prediksi"):
             file_name=out_file,
             mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
         )
+
 
 
 
