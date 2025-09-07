@@ -286,6 +286,26 @@ service_level = st.slider("🎯 Service Level", 0.8, 0.99, 0.95, 0.01)
 min_history_days = st.number_input("📆 Minimal history days", min_value=30, value=90, step=30)
 moq = st.number_input("📦 MOQ / Lot Size (isi 1 kalau bebas)", min_value=1, value=1, step=1)
 
+st.markdown(
+    """
+    <style>
+    .watermark {
+        position: fixed;
+        bottom: 10px;
+        left: 50%;
+        transform: translateX(-50%);
+        font-size: 14px;
+        color: grey;
+        opacity: 0.7;
+        z-index: 100;
+    }
+    </style>
+    <div class="watermark">Powered by Digital Transformation CMD Sentul</div>
+    """,
+    unsafe_allow_html=True
+)
+
+
 if uploaded_mb51 and uploaded_mb52 and st.button("🔍 Jalankan Prediksi & Reorder"):
     # Load MB51
     if uploaded_mb51.name.endswith(".csv"):
@@ -358,6 +378,7 @@ if uploaded_mb51 and uploaded_mb52 and st.button("🔍 Jalankan Prediksi & Reord
             file_name=out_file,
             mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
         )
+
 
 
 
