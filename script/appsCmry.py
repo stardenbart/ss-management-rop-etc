@@ -115,8 +115,40 @@ def compute_ss_rop(df,
         if sub.empty:
             continue
 
+        # --- Cek kalau semua tanggal null ---
+        if sub[date_col].isna().all():
+            rows.append({
+                material_col: m,
+                "history_days": 0,
+                "mean_daily": np.nan,
+                "std_daily": np.nan,
+                "leadtime_days": np.nan,
+                "leadtime_std": np.nan,
+                "Z": z,
+                "safety_stock": np.nan,
+                "rop": np.nan,
+                "note": "no_valid_date"
+            })
+            continue
+
         start = sub[date_col].min()
         end = sub[date_col].max()
+        if pd.isna(start) or pd.isna(end):
+            rows.append({
+                material_col: m,
+                "history_days": 0,
+                "mean_daily": np.nan,
+                "std_daily": np.nan,
+                "leadtime_days": np.nan,
+                "leadtime_std": np.nan,
+                "Z": z,
+                "safety_stock": np.nan,
+                "rop": np.nan,
+                "note": "invalid_date_range"
+            })
+            continue
+
+        # --- Daily consumption ---
         idx = pd.date_range(start=start, end=end, freq="D")
         daily = (sub.set_index(date_col)
                    .resample("D")["__cons"]
@@ -126,6 +158,7 @@ def compute_ss_rop(df,
         history_days = (end - start).days + 1
         mean_d = daily.mean()
         std_d = daily.std(ddof=0)
+
 
         lt_val = sub[leadtime_col].dropna().unique()
         lt_val = float(lt_val[0]) if len(lt_val) > 0 else np.nan
@@ -434,6 +467,7 @@ if uploaded_mb51 and uploaded_mb52 and st.button("🚀 Jalankan Prediksi"):
             file_name=out_file,
             mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
         )
+
 
 
 
