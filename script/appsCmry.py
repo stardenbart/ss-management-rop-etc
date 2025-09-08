@@ -400,6 +400,10 @@ if uploaded_mb51 and uploaded_mb52 and st.button("🚀 Jalankan Prediksi"):
     else:
         df = pd.read_excel(uploaded_mb51)
 
+    # --- Bersihin baris yang Posting Date dan Material kosong ---
+    df = df.dropna(subset=["Posting Date", "Material"], how="all")
+    df = df[~df["Material"].astype(str).str.strip().isin(["", "nan", "NaN", "None"])]
+
     # Merge dengan lead_time.xlsx
     try:
         leadtime_df = pd.read_excel(os.path.join(script_dir, "lead_time.xlsx"))
@@ -467,20 +471,3 @@ if uploaded_mb51 and uploaded_mb52 and st.button("🚀 Jalankan Prediksi"):
             file_name=out_file,
             mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
         )
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
